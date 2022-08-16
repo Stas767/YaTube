@@ -324,20 +324,21 @@ class PostViewTests(TestCase):
             ('/auth/login/?next=/profile/AuthorUser/follow/')
         )
 
-    def test_no_self_user(self):
+    # def test_no_self_user(self):
+    #     """Нельзя подписаться на самого себя"""
 
-        constraint_name = 'no_self_user'
-        with self.assertRaisesMessage(IntegrityError, constraint_name):
-            self.authorized_client.get(
-                reverse(
-                    'posts:profile_follow', kwargs={
-                        'username': self.user_autorized}
-                )
-            )
-            Follow.objects.create(
-                user=self.user_autorized,
-                author=self.user_autorized
-            )
+    #     constraint_name = 'no_self_user'
+    #     with self.assertRaisesMessage(IntegrityError, constraint_name):
+    #         self.authorized_client.get(
+    #             reverse(
+    #                 'posts:profile_follow', kwargs={
+    #                     'username': self.user_autorized}
+    #             )
+    #         )
+    #         Follow.objects.create(
+    #             user=self.user_autorized,
+    #             author=self.user_autorized
+            # )
 
     def test_follower_see_new_posts_following(self):
 
