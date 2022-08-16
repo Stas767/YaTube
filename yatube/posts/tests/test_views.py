@@ -324,6 +324,17 @@ class PostViewTests(TestCase):
             ('/auth/login/?next=/profile/AuthorUser/follow/')
         )
 
+        response_follow_yourself = self.authorized_client.get(
+            reverse(
+                'posts:profile_follow', kwargs={
+                    'username': self.user_autorized}
+            )
+        )
+        self.assertRedirects(
+            response_follow_yourself,
+            ('/profile/HasNoName/')
+        )
+
     # def test_no_self_user(self):
     #     """Нельзя подписаться на самого себя"""
 
