@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from django.db import IntegrityError
+# from django.db import IntegrityError
 from django.core.cache import cache
 import shutil
 import tempfile
@@ -338,7 +338,7 @@ class PostViewTests(TestCase):
     #         Follow.objects.create(
     #             user=self.user_autorized,
     #             author=self.user_autorized
-            # )
+        # )
 
     def test_follower_see_new_posts_following(self):
 
