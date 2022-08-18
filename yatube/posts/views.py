@@ -15,7 +15,7 @@ SELECT_LIMIT = 10  # количество записей на странице
 def index(request):
     templates = 'posts/index.html'
     title = 'Последние обновления на сайте'
-    post_list = Post.objects.all()
+    post_list = Post.objects.select_related('author').all()
     context = {
         'title': title,
         'page_obj': paginator(request, post_list),
@@ -27,7 +27,7 @@ def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     templates = 'posts/group_list.html'
     title = f'Записи сообщества {group}'
-    post_list = Post.objects.all()
+    post_list = Post.objects.select_related('author').all()
     context = {
         'title': title,
         'page_obj': paginator(request, post_list),
@@ -45,8 +45,13 @@ def paginator(request, post_list):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    author_post = Post.objects.filter(author_id=author)
+    # Если я правильно понял про select_related,
+    # то перед фильтром тоже можно использовать?
+    author_post = Post.objects.select_related('author').filter(
+        author_id=author
+    )
     count_post = author_post.count()
+    count_follower = Follow.objects.filter(author=author).count()
     title = f'Профайл пользователя {username}'
 
     context = {
@@ -54,6 +59,7 @@ def profile(request, username):
         'title': title,
         'author': author,
         'count_post': count_post,
+        'count_follower': count_follower,
     }
 
     if request.user.is_authenticated:
@@ -70,7 +76,7 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     count_post = post.author.posts.count()
     form = CommentForm()
-    comments = Comment.objects.select_related('post')
+    comments = Comment.objects.select_related('post').filter(post=post_id)
     context = {
         'comments': comments,
         'form': form,
@@ -140,21 +146,15 @@ def follow_index(request):
 
 @ login_required
 def profile_follow(request, username):
-    # Подписаться на автора
     author = get_object_or_404(User, username=username)
     if request.user != author:
-        if not Follow.objects.filter(
-            user=request.user,
-            author=author
-        ):
-            Follow.objects.create(user=request.user, author=author)
-            return redirect('posts:profile', username=author)
+        Follow.objects.get_or_create(user=request.user, author=author)
+        return redirect('posts:profile', username=author)
     return redirect('posts:profile', username=request.user)
 
 
 @ login_required
 def profile_unfollow(request, username):
-    # Дизлайк, отписка
     author = get_object_or_404(User, username=username)
     Follow.objects.filter(user=request.user, author=author).delete()
     return redirect('posts:profile', username=author)

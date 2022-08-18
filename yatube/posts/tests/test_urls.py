@@ -13,8 +13,8 @@ class PostURLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.author_user = User.objects.create_user(username='Author')
-        cls.user = User.objects.create_user(username='HasNoName')
+        cls.author_user = User.objects.create_user('Author_post')
+        cls.user = User.objects.create_user('Ivan')
         cls.group = Group.objects.create(
             title='Group',
             slug='Slug',
@@ -38,7 +38,7 @@ class PostURLTests(TestCase):
         list_urls = (
             '/',
             '/group/Slug/',
-            '/profile/HasNoName/',
+            '/profile/Ivan/',
             '/posts/1/'
         )
         for url in list_urls:
@@ -69,7 +69,7 @@ class PostURLTests(TestCase):
         templates_url_names = {
             '/': 'posts/index.html',
             '/group/Slug/': 'posts/group_list.html',
-            '/profile/HasNoName/': 'posts/profile.html',
+            '/profile/Ivan/': 'posts/profile.html',
             '/posts/1/': 'posts/post_detail.html',
             '/posts/1/edit/': 'posts/create_post.html',
             '/create/': 'posts/create_post.html',

@@ -6,7 +6,7 @@ from .models import Post, Comment
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        exclude = ['author']
+        exclude = ('author',)
         widgets = {
             'text': Textarea(attrs={'cols': 40, 'rows': 10}),
         }
@@ -15,4 +15,7 @@ class PostForm(ModelForm):
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        exclude = ['author', 'post']
+        exclude = ('author', 'post',)
+
+# Егор, в слаке тебе писал, что убрал labels и help_texts в модели.
+# В моделях добавил verbose_name и help_texts соответсвенно
