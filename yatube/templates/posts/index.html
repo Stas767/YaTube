@@ -2,9 +2,9 @@
 {% block title %}{{ title }}{% endblock title %}  
 {% block content %}
 {% include 'posts/includes/switcher.html' %}
-{% load cache %}
+{% comment %} {% load cache %} {% endcomment %}
 {% load thumbnail %}
-{% cache 20 index_page %}
+{% comment %} {% cache 20 index_page %} {% endcomment %}
 {% for post in page_obj %}
 <article>
   <ul>
@@ -32,7 +32,7 @@
   {% endif %} 
   {% if not forloop.last %}<hr>{% endif %}
 {% endfor %} 
-{% endcache %} 
+{% comment %} {% endcache %}  {% endcomment %}
 
 {% include 'includes/paginator.html' %}
 
