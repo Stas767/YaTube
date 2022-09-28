@@ -265,10 +265,6 @@ class FollowViewTests(TestCase):
         cls.authorized_client.force_login(cls.subscriber)
         cls.notsubscriber_client = Client()
         cls.notsubscriber_client.force_login(cls.notsubscriber)
-        # cls.first_post = Post.objects.create(
-        #     text='Проверка коментариев',
-        #     author=cls.author_user
-        # )
 
     def test_authorized_user_can_follow_and_unfollow(self):
 
