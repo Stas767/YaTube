@@ -45,8 +45,6 @@ def paginator(request, post_list):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    # Если я правильно понял про select_related,
-    # то перед фильтром тоже можно использовать?
     author_post = Post.objects.select_related('author').filter(
         author_id=author
     )
@@ -134,7 +132,6 @@ def add_comment(request, post_id):
 
 @ login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
     title = 'Лента избранных авторов'
     post_list = Post.objects.filter(author__following__user=request.user)
     context = {
