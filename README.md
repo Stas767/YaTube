@@ -18,11 +18,11 @@ ___
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone git@github.com:Stas767/hw05_final.git
+git clone git@github.com:Stas767/YaTube.git
 ```
 
 ```
-cd hw05_final
+cd YaTube
 ```
 
 Cоздать и активировать виртуальное окружение:
